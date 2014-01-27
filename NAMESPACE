@@ -1,0 +1,6 @@
+useDynLib(PBC)
+exportPattern("^[[:alpha:]]+")
+import("Rcpp")
+importFrom("copula", rCopula, pCopula, gumbelCopula, fgmCopula, frankCopula, normalCopula, amhCopula, joeCopula)
+import("methods")
+import("igraph")

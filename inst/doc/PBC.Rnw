@@ -1,0 +1,53 @@
+% -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
+\documentclass[a4paper]{article}
+
+\title{Product of Bivariate Copulas}
+\author{Pham Van Trung, Mazo Gildas}
+
+\SweaveOpts{echo=FALSE}
+\usepackage{a4wide}
+
+\begin{document}
+%\VignetteIndexEntry{PBC PBC}
+\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+First, we create an PBC object
+<<echo=TRUE>>=
+library(PBC)
+g <- graph.formula(X1-X2, X2-X3, X3-X4, X4-X5, simplify = FALSE)
+myPBC <- pbcGumbel(g)
+@
+
+We plot PBCs on the graph
+\begin{figure}[htbp]
+  \begin{center}
+<<fig=TRUE>>=
+pbcPlot(myPBC)
+@
+     \caption{Display PBC on the graph.}
+  \end{center}
+\end{figure}
+
+Now we simulate 100 observations of PBC object created
+<<echo=TRUE>>=
+theta <- 1/runif(4)
+data <- rPBC(100, theta, myPBC)
+@
+
+Finally, we estimate parameters
+<<echo=TRUE>>=
+thetaEstimated <- pbcOptim(rep(1, 4), data, myPBC, method = 'BFGS')
+@
+
+<<>>=
+print(thetaEstimated)
+@
+
+And compare with true parameters
+<<>>=
+print(theta)
+@
+
+\end{document}
