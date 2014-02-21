@@ -1,6 +1,6 @@
 /*
  *  R : A Computer Language for Statistical Data Analysis
- *  Copyright (C) 2000-4 The R Core Team
+ *  Copyright (C) 2000-14 The R Core Team
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,25 @@
  *  http://www.r-project.org/Licenses/
  */
 /* l-bfgs-b.f -- translated by f2c (version 19991025).
+
+  From ?optim:
+  The code for methods "BFGS" was based originally 
+  on Pascal code in Nash (1990) that was translated by p2c and then hand-optimized. 
+  Dr Nash has agreed that the code can be made freely available.
+  
+  The code for method â€˜"L-BFGS-B"â€™ is based on Fortran code by Zhu,
+  Byrd, Lu-Chen and Nocedal obtained from Netlib (file 'opt/lbfgs_bcm.shar')
+
+  The Fortran files contained no copyright information.
 */
 
 /* <UTF8> all char uses here are ASCII */
 
 /*
- * 
+ * This file reuses the code from lbfgsb.c (in R)
+ * Two functions (lbfgsb_modified and vmmin_modified) are modified
+ * from optim.c (in R) to increase speed of optimization function
+ * for PBC package.
  * Modified for R package PBC (by Pham Van Trung)
  * 
  */
@@ -3973,9 +3986,16 @@ L70:
 #endif
 
 /*
+ * The code for method "L-BFGS-B" is based on Fortran code by Zhu, Byrd, 
+ * Lu-Chen and Nocedal obtained from Netlib (file 'opt/lbfgs_bcm.shar')
  * 
- * lbfgsb function modified for PBC package (by Pham Van Trung)
- * 
+ * /
+
+/*
+ * lbfgsb is a function in optim.c (of R)
+ * it's modified for PBC package (by Pham Van Trung)
+ * to increase speed of optimization function in PBC package
+ * for L-BFGS-B method
  */
 
 
@@ -4031,7 +4051,7 @@ void lbfgsb_modified(int n, int m, double *x, double *l, double *u, int *nbd,
 	    //if (!R_FINITE(f))
 		//error(_("L-BFGS-B needs finite values of 'fn'"));
 	    //cout << "L-BFGS-B needs finite values of 'fn'";
-	    if (!isnan(f))
+	    if (!ISNAN(f))
 	    //g = fmingr(n, x);
 	      for (int i = 0; i < n; i++)
 	        g[i] = f_[i+1];
@@ -4077,9 +4097,10 @@ in J.C. Nash, `Compact Numerical Methods for Computers', 2nd edition,
 converted by p2c then re-crafted by B.D. Ripley */
 
 /*
- * 
- * vmmin function modified for PBC package (by Pham Van Trung)
- * 
+ * vmmin is a function in optim.c (of R)
+ * it's modified for PBC package (by Pham Van Trung)
+ * to increase speed of optimization function in PBC package
+ * for BFGS method
  */
 
 void vmmin_modified(int n0, double *b, double *Fmin, optim fmin,

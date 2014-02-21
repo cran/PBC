@@ -1,53 +1,66 @@
 % -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
 \documentclass[a4paper]{article}
 
-\title{Product of Bivariate Copulas}
+\title{Product of Bivariate Copulas (PBC)}
 \author{Pham Van Trung, Mazo Gildas}
+
 
 \SweaveOpts{echo=FALSE}
 \usepackage{a4wide}
 
 \begin{document}
+
+
+
 %\VignetteIndexEntry{PBC PBC}
 \SweaveOpts{concordance=TRUE}
 
 \maketitle
 
-First, we create an PBC object
+\section*{This document}
+shows briefly how to use the \verb?PBC? package. See the package documentation and references for more informations. Please let the authors know about bugs or suggestions!
+
+\section*{Let's get started}
+Load the package.
 <<echo=TRUE>>=
 library(PBC)
+@
+Set the underlying graphical structure you wish, for instance
+<<echo=TRUE>>=
 g <- graph.formula(X1-X2, X2-X3, X3-X4, X4-X5, simplify = FALSE)
+@
+Pick a copula family (here Gumbel)
+<<echo=TRUE>>=
 myPBC <- pbcGumbel(g)
 @
-
-We plot PBCs on the graph
+Or:
+<<echo=TRUE>>=
+myPBC <- pbc(g, model="gumbel") 
+@
+You can visualize the graph in Figure \ref{graph}.
 \begin{figure}[htbp]
   \begin{center}
 <<fig=TRUE>>=
 pbcPlot(myPBC)
 @
-     \caption{Display PBC on the graph.}
+     \caption{Graph underlying the PBC model.}
+     \label{graph}
   \end{center}
 \end{figure}
-
-Now we simulate 100 observations of PBC object created
+Generate $n$ observations from that model with the parameter vector $\theta$.
 <<echo=TRUE>>=
-theta <- 1/runif(4)
-data <- rPBC(100, theta, myPBC)
+theta <- 1:4
+n <- 100
+data <- rPBC(n, theta, myPBC)
+head(data)
 @
-
-Finally, we estimate parameters
+Estimate the parameters:
 <<echo=TRUE>>=
-thetaEstimated <- pbcOptim(rep(1, 4), data, myPBC, method = 'BFGS')
+init <- 1/runif(4)
+theta.hat <- pbcOptim(init, data, myPBC, method = 'BFGS')
 @
-
 <<>>=
-print(thetaEstimated)
+print(theta.hat)
 @
-
-And compare with true parameters
-<<>>=
-print(theta)
-@
-
+The value for \verb?init? was set randomly. It is best to provide a first guess, for instance by finding the pairwise maximum likelihood estimate (you don't need this package for that).
 \end{document}

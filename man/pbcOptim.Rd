@@ -24,7 +24,15 @@ A numeric vector giving the estimate.
 }
 
 \details{
-The R routine \code{\link{optim}} is used to minimize -log likelihood. Compared to brute use of \code{optim}, \code{pbcOptim} saves one call to \code{mpAlgo}.  
+The R routine \code{\link{optim}} is used to minimize -log likelihood. Compared to brute use of \code{optim}, \code{pbcOptim} saves one call to \code{mpAlgo}. See \code{\link{optim}}.
+}
+
+\source{
+The code for pbcOptim is based on that of \code{\link{optim}}. In particular, pbcOptim calls /src/lbfgsb.cpp which is a slight adaptation of lbfgsb.c and optim.c part of the R software (http://www.r-project.org/). See \code{\link{optim}} and ?optim.
+
+The code for BFGS method is based on Pascal code in J.C. Nash, 'Compact Numerical Methods for Computers', 2nd edition, converted by p2c then re-crafted by B.D. Ripley. It is modified by V.T. Pham for pbcOptim to increase speed of this function.
+
+The code for L-BFGS-B method is based on Fortran code by Zhu, Byrd, Lu-Chen and Nocedal obtained from Netlib, then modified by V.T. Pham.
 }
 
 \seealso{
