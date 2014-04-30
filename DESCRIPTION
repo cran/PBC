@@ -1,8 +1,8 @@
 Package: PBC
 Type: Package
 Title: Product of Bivariate Copulas (PBC)
-Version: 1.1
-Date: 2014-02-21
+Version: 1.2
+Date: 2014-04-30
 Author: Van Trung Pham and Gildas Mazo, with contributions from R Core team, Nash, Zhu, Byrd, Lu-Chen and Nocedal
 Maintainer: Van Trung Pham <trungpv88@gmail.com>
 Depends: R (>= 3.0.0), igraph
@@ -12,4 +12,4 @@ License: GPL (>= 2)
 LinkingTo: Rcpp
 Repository: CRAN
 NeedsCompilation: yes
-Date/Publication: 2014-02-21 11:31:43
+Date/Publication: 2014-04-30 08:23:27

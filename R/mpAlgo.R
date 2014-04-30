@@ -1,7 +1,8 @@
 ## Create PBC object
 pbc <- function(g, model, ...) {  
   ## Delete 'simplify=FALSE'
-  g <- delete.vertices(g,V(g)[length(V(g))])
+  ## Update for igraph 0.7.1
+  ##g <- delete.vertices(g,V(g)[length(V(g))])
   ## Get root in center of tree
   root <- V(g)[get.diameter(g)[diameter(g)/2+1]]$name
   ## Get the longest path from root
